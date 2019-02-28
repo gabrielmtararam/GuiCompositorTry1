@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GuiCompositorTry1.Factorys;
 
 namespace GuiCompositorTry1
 {
@@ -23,6 +24,20 @@ namespace GuiCompositorTry1
         public MainWindow()
         {
             InitializeComponent();
+        }
+        private void OnAddScreenClick(object sender, RoutedEventArgs e)
+        {
+            //            throw new NotImplementedException();
+            //   Console.WriteLine($"select { TreeViewScreens.SelectedItem.ToString()}");
+
+            ScreenFactory.AddDefaultScreen(ProgramManager.ActiveScreen.Screen.Childrens, "teste", null);
+
+
+        }
+
+        public void OnRemoveScreenClick(object sender, RoutedEventArgs e)
+        {
+            //            throw new NotImplementedException();
         }
     }
 }

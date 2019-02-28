@@ -1,18 +1,21 @@
-﻿<Window x:Class="GuiCompositorTry1.MainWindow"
+﻿<Window x:Class="PrototypeGuiCompositor30.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GuiCompositorTry1"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:PrototypeGuiCompositor30"
+    
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450"  MinWidth="1200" Width="1100"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+     xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+     xmlns:s="clr-namespace:System;assembly=mscorlib"
+     xmlns:userControls="clr-namespace:PrototypeGuiCompositor30.UserControls"
+     Name="thisWindow">
 
 
 
-    <Grid Name="grid1" MinHeight="10" MinWidth="1200">
+    <Grid Name="grid1" MinHeight="10" MinWidth="1200" MouseDown="Window_MouseDown">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" MinHeight="30"></RowDefinition>
             <RowDefinition Height="3*" MinHeight="50"></RowDefinition>
@@ -31,7 +34,7 @@
                AllowMixedOrientation="True"
                BorderBrush="Black"
                BorderThickness="1"
-             
+               MouseDown="Window_MouseDown"
                >
 
             <xcad:DockingManager.DocumentHeaderTemplate>
@@ -43,19 +46,19 @@
             </xcad:DockingManager.DocumentHeaderTemplate>
             <xcad:LayoutRoot x:Name="_layoutRoot" >
                 <xcad:LayoutPanel Orientation="Horizontal" >
-
+                    
 
                     <xcad:LayoutAnchorablePaneGroup  Orientation="Vertical" DockWidth="*" >
 
                         <xcad:LayoutAnchorablePane >
                             <xcad:LayoutAnchorable ContentId="Screean" Title="Screens"  >
-                                <StackPanel >
+                                <StackPanel MouseDown="Window_MouseDown">
                                     <Popup x:Name="popup"  PlacementTarget="{Binding ElementName=btn}" Placement="Bottom"  Width="200" Height="100" Margin="0,20,0,0">
                                         <Border BorderBrush="Black" BorderThickness="2" Background="AliceBlue">
                                             <TextBox x:Name="txtBox" VerticalAlignment="Center" Margin="15,0,15,0"/>
                                         </Border>
                                     </Popup>
-                                    <Grid >
+                                    <Grid MouseDown="Window_MouseDown">
 
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -63,74 +66,83 @@
                                         </Grid.ColumnDefinitions>
                                         <Button Grid.Column="0" Click="OnAddScreenClick">+</Button>
                                         <Button Grid.Column="1" Click="OnRemoveScreenClick">-</Button>
-
+                                     
                                     </Grid>
                                     <ScrollViewer>
                                         <TreeView Background="Chartreuse"  ItemsSource="{Binding ElementName=thisWindow, Path=telas}" Name="TreeViewScreens" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" MinHeight="134"  TreeViewItem.Selected="OnItemSelected">
-                                            <TreeView.ItemTemplate  >
-                                                <HierarchicalDataTemplate ItemsSource="{Binding Childrens}"   >
+                                        <TreeView.ItemTemplate  >
+                                            <HierarchicalDataTemplate ItemsSource="{Binding Childrens}"   >
                                                     <StackPanel Background="BlueViolet" HorizontalAlignment="Stretch" >
-
-                                                        <!--<local:CustomTextBox SelectClick="OnMouseTreeItemLeftButtonDown" LabelText="{Binding Path=Name}" PropCVType="1" CustomToolTip="Name cannot be empty"  />-->
-                                          
+                                                        <local:CustomTextBox SelectClick="OnMouseTreeItemLeftButtonDown" LabelText="{Binding Path=Name}" PropCVType="1" CustomToolTip="Name cannot be empty"  />
                                                     </StackPanel>
-                                                </HierarchicalDataTemplate>
-                                            </TreeView.ItemTemplate>
+                                            </HierarchicalDataTemplate>
+                                        </TreeView.ItemTemplate>
 
-                                        </TreeView>
-                                    </ScrollViewer>
+                                      
+                                    </TreeView>
+                                        </ScrollViewer>
 
 
                                 </StackPanel>
-
+                                
                             </xcad:LayoutAnchorable>
 
                         </xcad:LayoutAnchorablePane>
                         <xcad:LayoutAnchorablePane>
                             <xcad:LayoutAnchorable ContentId="teste" Title="teste" >
                                 <StackPanel>
-                                    <Button Name="Button2" >em breve</Button>
+                                    <Button Name="Button2" > em breve</Button>
                                    
                                 </StackPanel>
                             </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorablePane>
                     </xcad:LayoutAnchorablePaneGroup>
-
+                    <!--{Binding Source={x:Static local:ProgramManager.ActiveScreen}, Pat -->
                     <xcad:LayoutAnchorablePaneGroup DockWidth="4*">
                         <xcad:LayoutAnchorablePane>
                             <xcad:LayoutAnchorable x:Name="CurrentScreen"  ContentId="Screen1" Title="{Binding Source={x:Static local:ProgramManager.ActiveScreen}, Path=Screen.Name}"   >
-                                <!--<local:CanvasContainerControl x:Name="canvasContainer" 
+                                <local:CanvasContainerControl x:Name="canvasContainer" 
                                                               Screen="{Binding Source={x:Static local:ProgramManager.ActiveScreen},Path=Screen, UpdateSourceTrigger=PropertyChanged}"
                                                               Content="{Binding Source={x:Static local:ProgramManager.ActiveScreen},Path=Screen.Screen, UpdateSourceTrigger=PropertyChanged }"
                                                               >
 
-                                </local:CanvasContainerControl>-->
-                                <Canvas>
-
-                                </Canvas>
+                                </local:CanvasContainerControl>
                             </xcad:LayoutAnchorable>
 
                         </xcad:LayoutAnchorablePane>
                     </xcad:LayoutAnchorablePaneGroup>
 
                     <xcad:LayoutAnchorablePaneGroup DockWidth="*">
-
+                        
                         <xcad:LayoutAnchorablePane>
                             <xcad:LayoutAnchorable ContentId="Style2" Title="Style"  >
                                 <ScrollViewer>
                                     <StackPanel>
 
-                                        <Button  x:Name="btn" >button for test</Button>
-                                     <xctk:PropertyGrid Name="PropertyGrid" AutoGenerateProperties="True" SelectedObject="{Binding Source={x:Static local:ProgramManager.ActiveControl}, Path=ActiveControl.Content2SimpleButton, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                   <Button  x:Name="btn" >button for test</Button>
+                                      <xctk:PropertyGrid Name="PropertyGrid" AutoGenerateProperties="True" SelectedObject="{Binding Source={x:Static local:ProgramManager.ActiveControl}, Path=ActiveControl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                             <xctk:PropertyGrid.EditorDefinitions>
                                                 <xctk:EditorTemplateDefinition >
                                                     <xctk:EditorTemplateDefinition.TargetProperties>
-                                        
-                                                        <system:String>BackgroundColor</system:String>
+                                              
+                                                        <s:String>BackgroundColor</s:String>
                                                     </xctk:EditorTemplateDefinition.TargetProperties>
                                                     <xctk:EditorTemplateDefinition.EditingTemplate>
                                                         <DataTemplate>
-                                                            <xctk:PropertyGridEditorColorPicker SelectedColor="{Binding Source={x:Static local:ProgramManager.ActiveControl}, Path=ActiveControl.Content2SimpleButton.BackgroundColor, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
+                                                            <xctk:PropertyGridEditorColorPicker SelectedColor="{Binding Source={x:Static local:ProgramManager.ActiveControl}, Path=ActiveControl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
+                                                        </DataTemplate>
+                                                    </xctk:EditorTemplateDefinition.EditingTemplate>
+                                                </xctk:EditorTemplateDefinition>
+                                              
+                                                
+                                                <xctk:EditorTemplateDefinition >
+                                                    <xctk:EditorTemplateDefinition.TargetProperties>
+                                                   
+                                                        <s:String>FontColor</s:String>
+                                                    </xctk:EditorTemplateDefinition.TargetProperties>
+                                                    <xctk:EditorTemplateDefinition.EditingTemplate>
+                                                        <DataTemplate>
+                                                            <xctk:PropertyGridEditorColorPicker SelectedColor="{Binding Source={x:Static local:ProgramManager.ActiveControl}, Path=ActiveControl.FontColor, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
                                                         </DataTemplate>
                                                     </xctk:EditorTemplateDefinition.EditingTemplate>
                                                 </xctk:EditorTemplateDefinition>
@@ -138,39 +150,26 @@
 
                                                 <xctk:EditorTemplateDefinition >
                                                     <xctk:EditorTemplateDefinition.TargetProperties>
-                                     
-                                                        <system:String>FontColor</system:String>
+                                                    
+                                                        <s:String>Text</s:String>
                                                     </xctk:EditorTemplateDefinition.TargetProperties>
                                                     <xctk:EditorTemplateDefinition.EditingTemplate>
                                                         <DataTemplate>
-                                                            <xctk:PropertyGridEditorColorPicker SelectedColor="{Binding Source={x:Static local:ProgramManager.ActiveControl}, Path=ActiveControl.Content2SimpleButton.FontColor, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
-                                                        </DataTemplate>
-                                                    </xctk:EditorTemplateDefinition.EditingTemplate>
-                                                </xctk:EditorTemplateDefinition>
-
-
-                                                <xctk:EditorTemplateDefinition >
-                                                    <xctk:EditorTemplateDefinition.TargetProperties>
-                                            
-                                                        <system:String>Text</system:String>
-                                                    </xctk:EditorTemplateDefinition.TargetProperties>
-                                                    <xctk:EditorTemplateDefinition.EditingTemplate>
-                                                        <DataTemplate>
-                                                            <xctk:MultiLineTextEditor  Text="{Binding Source={x:Static local:ProgramManager.ActiveControl}, Path=ActiveControl.Content2SimpleButton.Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
+                                                            <xctk:MultiLineTextEditor  Text="{Binding Source={x:Static local:ProgramManager.ActiveControl}, Path=ActiveControl.Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
                                                         </DataTemplate>
                                                     </xctk:EditorTemplateDefinition.EditingTemplate>
                                                 </xctk:EditorTemplateDefinition>
 
                                                 <xctk:EditorTemplateDefinition >
                                                     <xctk:EditorTemplateDefinition.TargetProperties>
-                                                        <xctk:TargetPropertyType Type="{x:Type ImageSource}" />
+                                                        <xctk:TargetPropertyType Type="{  x:Type ImageSource}" />
                                                     </xctk:EditorTemplateDefinition.TargetProperties>
                                                     <xctk:EditorTemplateDefinition.EditingTemplate>
                                                         <DataTemplate>
                                                             <StackPanel>
-
+                                                                
                                                                 <userControls:CustomFilePicker ></userControls:CustomFilePicker>
-
+                                                               
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </xctk:EditorTemplateDefinition.EditingTemplate>
@@ -186,7 +185,7 @@
                     </xcad:LayoutAnchorablePaneGroup>
 
                 </xcad:LayoutPanel>
-
+               
 
             </xcad:LayoutRoot>
         </xcad:DockingManager>
@@ -232,17 +231,18 @@
 
 
         <Menu MinHeight="10" MinWidth="900" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
-
+            
             <local:dragNDropContentControl >
                 <local:dragNDropContentControl.DragNDropContent>
                     <Button MinWidth="65" MinHeight="35" Width="54" FontSize="18" IsEnabled="False" >
                         <Grid>
-
+                            
                             <Image Height="41" Width="55" Source="./images/icons8-button-50(1).png"/>
                         </Grid>
                     </Button>
                 </local:dragNDropContentControl.DragNDropContent>
             </local:dragNDropContentControl>
+
 
 
             <Button Name="button1" MinWidth="65" MinHeight="35" Width="54" FontSize="18" IsEnabled="True" Click="OnImageInsertSelect" >
@@ -303,8 +303,6 @@
     </Grid>
 
 
-
-
-
+    
+    
 </Window>
-
